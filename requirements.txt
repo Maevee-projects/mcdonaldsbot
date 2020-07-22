@@ -1,0 +1,5 @@
+urllib3==1.24.2
+requests==2.21.0
+colorama==0.4.3
+PyQRCode==1.2.1
+pypng==0.0.20
