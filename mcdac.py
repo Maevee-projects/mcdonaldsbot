@@ -37,7 +37,7 @@ def macdac():
 		oppp = random.choices(base_str(), k=KEY_LEN)
 		deviceid = (''.join(oppp))
 		headers = {'X-Device-ID': deviceid, 'user-agent': 'okhttp/3.12.1'}
-		r2 = requests.post(url2, verify=False, proxies=proxyDict)
+		r2 = requests.post(url2, verify=False)
 		time.sleep(5)
 		response_r2 = r2.text
 		if response_r2 == 'NO_NUMBERS':
@@ -53,14 +53,14 @@ def macdac():
 		time.sleep(5)
 		numberres = "+" + number
 		url3 = f'https://sms-activate.ru/stubs/handler_api.php?api_key={apikey}&action=setStatus&status=1&id={null}'
-		r1 = requests.post(url1, verify=False, headers=headers, proxies=proxyDict, json={"phone": numberres})
+		r1 = requests.post(url1, verify=False, headers=headers, json={"phone": numberres})
 		res = json.loads(r1.text)
 		JWTONLOGIN = res['ticket']
 		time.sleep(5)
-		r3 = requests.post(url3, verify=False, proxies=proxyDict)
+		r3 = requests.post(url3, verify=False)
 		time.sleep(100)
 		url4 = f'https://sms-activate.ru/stubs/handler_api.php?api_key={apikey}&action=getStatus&id={null}'
-		r4 = requests.post(url4, verify=False, proxies=proxyDict)
+		r4 = requests.post(url4, verify=False)
 		str = 'STATUS_OK'
 		for s in r4.text:
 		    if str.lower().find(s.lower()) != -1:
@@ -74,19 +74,19 @@ def macdac():
 		if r4.text == 'NO_ACTIVATION':
 			sys.exit('че то не то')
 		url5 = 'https://mobile-api.mcdonalds.ru/api/v1/user/login/phone/confirm'
-		r5 = requests.post(url5, verify=False, headers=headers, proxies=proxyDict, json={"code": CODE, "ticket": JWTONLOGIN})
+		r5 = requests.post(url5, verify=False, headers=headers, json={"code": CODE, "ticket": JWTONLOGIN})
 		res2 = json.loads(r5.text)
 		token = res2['token']
 		headersonlog = {'X-Device-ID': deviceid, 'user-agent': 'okhttp/3.12.1', 'authorization': "Bearer " + token}
 		url7 = 'https://mobile-api.mcdonalds.ru/api/v1/awards'
-		r7 = requests.get(url7, verify=False, headers=headersonlog, proxies=proxyDict)
+		r7 = requests.get(url7, verify=False, headers=headersonlog)
 		while r7.text == "[]":
 			time.sleep(5)
-			r7 = requests.get(url7, verify=False, headers=headersonlog, proxies=proxyDict)
+			r7 = requests.get(url7, verify=False, headers=headersonlog)
 		res5 = json.loads(r7.text)
 		idaward = res5[0]['id']
 		url6 = f'https://mobile-api.mcdonalds.ru/api/v1/offers/offer/{idaward}'
-		r6 = requests.get(url6, verify=False, headers=headersonlog, proxies=proxyDict)
+		r6 = requests.get(url6, verify=False, headers=headersonlog)
 		res3 = json.loads(r6.text)
 		isActive = res3['isActive']
 		time.sleep(10)
