@@ -30,12 +30,6 @@ def macdac():
 	a = int(input('сколько бигов хочешь?\n'))
 	while a > 0:
 		url2 = f"https://sms-activate.ru/stubs/handler_api.php?api_key={apikey}&action=getNumber&service=ry&country=0"
-		https_proxy = "socks5://127.0.0.1:8883"
-		httpbin = 'http://httpbin.org/get'
-		proxyDict = { 
-		             "http" : https_proxy,
-		             "https" : https_proxy
-		            }
 		url1 = 'https://mobile-api.mcdonalds.ru/api/v1/user/login/phone'
 		KEY_LEN = 16
 		def base_str():
