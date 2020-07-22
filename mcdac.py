@@ -27,8 +27,9 @@ print(Fore.GREEN)
 apikey = input('Введите ваш api ключ сервиса sms-activate:')
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 def macdac():
-	a = int(input('сколько бигов хочешь?\n'))
+	a =  1
 	while a > 0:
+		a = int(input('сколько бигов хочешь?\n'))
 		url2 = f"https://sms-activate.ru/stubs/handler_api.php?api_key={apikey}&action=getNumber&service=ry&country=0"
 		url1 = 'https://mobile-api.mcdonalds.ru/api/v1/user/login/phone'
 		KEY_LEN = 16
