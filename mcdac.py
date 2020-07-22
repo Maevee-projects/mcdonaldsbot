@@ -41,7 +41,10 @@ def macdac():
 		time.sleep(5)
 		response_r2 = r2.text
 		if response_r2 == 'NO_NUMBERS':
-			sys.exit('че с номерами(их нет)')
+			print('че с номерами(их нет)')
+			time.sleep(100)
+			print('сплю 100 секунд и ищу еще раз номер')
+			mcdac()
 		if response_r2 == 'NO_BALANCE':
 			sys.exit('че с деньгами(их нет)')
 		else:
@@ -92,6 +95,7 @@ def macdac():
 		time.sleep(10)
 		if isActive == "false":
 			sys.exit('че с акцией(её нет)')
+		print('Выполнение завершено. Записываю код в файл.')
 		open('bigmacs.txt', 'w')
 		f = open('bigmacs.txt','a')
 		mcdcode = "https://tavernamobot.pw/nnac.php?q=" + token + "\n"
