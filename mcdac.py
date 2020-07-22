@@ -44,7 +44,7 @@ def macdac():
 			print('че с номерами(их нет)')
 			time.sleep(100)
 			print('сплю 100 секунд и ищу еще раз номер')
-			mcdac()
+			macdac()
 		if response_r2 == 'NO_BALANCE':
 			sys.exit('че с деньгами(их нет)')
 		else:
