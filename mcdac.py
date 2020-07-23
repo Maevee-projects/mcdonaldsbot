@@ -33,12 +33,6 @@ def macdac():
 			url2 = f"https://sms-activate.ru/stubs/handler_api.php?api_key={apikey}&action=getNumber&service=ry&country=0"
 			url1 = 'https://mobile-api.mcdonalds.ru/api/v1/user/login/phone'
 			KEY_LEN = 16
-			https_proxy = "socks5://127.0.0.1:8883"
-			httpbin = 'http://httpbin.org/get'
-			proxyDict = { 
-		             "http" : https_proxy,
-		             "https" : https_proxy
-					}
 			def base_str():
 			    return (string.hexdigits)
 			oppp = random.choices(base_str(), k=KEY_LEN)
@@ -66,7 +60,7 @@ def macdac():
 			url3 = f'https://sms-activate.ru/stubs/handler_api.php?api_key={apikey}&action=setStatus&status=1&id={null}'
 			print('Сплю 30 секунд, чтобы не получить блокировку в маке')
 			time.sleep(30)
-			r1 = requests.post(url1, verify=False, headers=headers, proxies=proxyDict, json={"phone": numberres})
+			r1 = requests.post(url1, verify=False, headers=headers, json={"phone": numberres})
 			if r1.status_code == 429:
 				print('Слишком много запросов, нужно подождать 10 минут и снова запустить программу')
 				sys.exit()
@@ -74,11 +68,11 @@ def macdac():
 			res = json.loads(r1.text)
 			JWTONLOGIN = res['ticket']
 			time.sleep(5)
-			r3 = requests.post(url3, verify=False, proxies=proxyDict)
+			r3 = requests.post(url3, verify=False)
 			print('Сплю 100 секунд и проверяю номер на наличие смс')
 			time.sleep(100)
 			url4 = f'https://sms-activate.ru/stubs/handler_api.php?api_key={apikey}&action=getStatus&id={null}'
-			r4 = requests.post(url4, verify=False, proxies=proxyDict)
+			r4 = requests.post(url4, verify=False)
 			str = 'STATUS_OK'
 			for s in r4.text:
 			    if str.lower().find(s.lower()) != -1:
@@ -89,26 +83,26 @@ def macdac():
 			if r4.text == 'STATUS_WAIT_CODE':
 				print('че с смской(её нет, timeout), продолжаю выполнение')
 				urlcancel = f"https://sms-activate.ru/stubs/handler_api.php?api_key={apikey}&action=setStatus&status=8&id={null}"
-				rcancel = requests.post(urlcancel, verify=False, proxies=proxyDict)
+				rcancel = requests.post(urlcancel, verify=False)
 				macdac()
 			if r4.text == 'NO_ACTIVATION':
 				sys.exit('че то не то, напишите создателю')
 			print('Нашел смс! Подтверждаю номер в маке.')
 			url5 = 'https://mobile-api.mcdonalds.ru/api/v1/user/login/phone/confirm'
-			r5 = requests.post(url5, verify=False, headers=headers, proxies=proxyDict, json={"code": CODE, "ticket": JWTONLOGIN})
+			r5 = requests.post(url5, verify=False, headers=headers, json={"code": CODE, "ticket": JWTONLOGIN})
 			res2 = json.loads(r5.text)
 			token = res2['token']
 			headersonlog = {'X-Device-ID': deviceid, 'user-agent': 'okhttp/3.12.1', 'authorization': "Bearer " + token}
 			url7 = 'https://mobile-api.mcdonalds.ru/api/v1/awards'
-			r7 = requests.get(url7, verify=False, proxies=proxyDict, headers=headersonlog)
+			r7 = requests.get(url7, verify=False, headers=headersonlog)
 			while r7.text == "[]":
 				time.sleep(5)
-				r7 = requests.get(url7, verify=False, proxies=proxyDict, headers=headersonlog)
+				r7 = requests.get(url7, verify=False, headers=headersonlog)
 			res5 = json.loads(r7.text)
 			idaward = res5[0]['id']
 			url6 = f'https://mobile-api.mcdonalds.ru/api/v1/offers/offer/{idaward}'
 			print('Получаю бигмак')
-			r6 = requests.get(url6, verify=False, proxies=proxyDict, headers=headersonlog)
+			r6 = requests.get(url6, verify=False, headers=headersonlog)
 			res3 = json.loads(r6.text)
 			isActive = res3['isActive']
 			availabilityTime = res3['availabilityTime']
